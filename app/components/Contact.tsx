@@ -1,13 +1,14 @@
-"use client"
-import { FaPaperPlane } from "react-icons/fa"
-import SectionHeading from "./SectionHeading"
-import { motion } from "framer-motion"
-import { useSectionInView } from "@/lib/hooks"
-import { sendEmail } from "@/actions/sendEmail"
+"use client";
 
+import SectionHeading from "./SectionHeading";
+import { motion } from "framer-motion";
+import { useSectionInView } from "@/lib/hooks";
+import { sendEmail } from "@/actions/sendEmail";
+import SubmitBtn from "./SubmitBtn";
+import toast from "react-hot-toast";
 
 const Contact = () => {
-  const { ref } = useSectionInView('Contact')
+  const { ref } = useSectionInView("Contact");
 
   return (
     <motion.section
@@ -16,31 +17,42 @@ const Contact = () => {
       className="mb-20 sm:mb-28 w-[min(100%,38rem)] text-center"
       initial={{
         opacity: 0,
-       }}
-       whileInView={{
+      }}
+      whileInView={{
         opacity: 1,
-       }}
-       transition={{
+      }}
+      transition={{
         duration: 1,
-       }}
-       viewport={{
+      }}
+      viewport={{
         once: true,
-       }}
+      }}
     >
-      <SectionHeading>
-        Contact Me
-      </SectionHeading>
+      <SectionHeading>Contact Me</SectionHeading>
 
-      <p className="text-gray-700 -mt-6">Please contact me directly at <a className="underline" href="mailto:david2tosin@gmail.com">david2tosin@gmail.com</a> or through this form</p>
+      <p className="text-gray-700 -mt-6">
+        Please contact me directly at{" "}
+        <a className="underline" href="mailto:david2tosin@gmail.com">
+          david2tosin@gmail.com
+        </a>{" "}
+        or through this form
+      </p>
 
       <form
         className="mt-10 flex flex-col"
         action={async (formData) => {
-          console.log('running on client');
-          console.log(formData.get('senderEmail'))
-          console.log(formData.get('message'))
+          console.log("running on client");
+          console.log(formData.get("senderEmail"));
+          console.log(formData.get("message"));
 
-          await sendEmail(formData)
+          const { data, error } = await sendEmail(formData);
+
+          if (error) {
+            toast.error(error);
+            return
+           }
+
+           toast.success('Email sent successfully!')
         }}
       >
         <input
@@ -56,14 +68,11 @@ const Contact = () => {
           name="message"
           placeholder="Your message"
           required
-          maxLength={500}
+          maxLength={5000}
         />
-        <button type="submit"
-          className="group flex items-center justify-center gap-2 h-[3rem] w-[8rem] bg-gray-900 text-white rounded-full outline-none transition-all  focus:scale-110 hover:scale-110 hover:bg-gray-950 active:scale-105"
-          >
-            Submit <FaPaperPlane className="text-xs opacity-70 transition-all group-hover:translate-x-1 group-hover:-translate-y-1"/></button>
+        <SubmitBtn />
       </form>
     </motion.section>
-  )
-}
-export default Contact
+  );
+};
+export default Contact;
