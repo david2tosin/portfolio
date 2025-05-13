@@ -27,8 +27,8 @@ const About = () => {
         <span className="italic">My favorite part of programming</span> is the
         problem-solving aspect. I <span className="underline">love</span> the
         feeling of finally figuring out a solution to a problem. My core stack
-        is <span className="font-medium">React & Next.js</span>. I am also
-        familiar with TypeScript. I am always looking to learn new technologies.
+        is <span className="font-medium">React</span>. I am also familiar with
+        TypeScript. I am always looking to learn new technologies.
       </p>
 
       <p>
